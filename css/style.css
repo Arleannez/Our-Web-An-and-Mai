@@ -84,7 +84,7 @@ body {
 }
 
 #Banner {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
@@ -93,7 +93,6 @@ body {
     z-index: 3;
     box-shadow: 0 4px 20px rgba(255, 182, 193, 0.5);
 }
-
 /* Section 1 */
 .Section-1 {
     padding: 4rem 2rem;
@@ -366,45 +365,6 @@ body {
     }
 }
 
-
-/* Click-to-reveal ONLY for the letter column */
-.hidden-blurred {
-    filter: blur(6px);
-    cursor: pointer;
-    transition: filter 0.6s ease;
-    position: relative;
-}
-
-/* Overlay text */
-.hidden-blurred::after {
-    content: "Click to reveal 💌";
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #ffd6e7;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(2px);
-    border-radius: 20px;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-/* Revealed state */
-.hidden-blurred.revealed {
-    filter: blur(0);
-    cursor: default;
-}
-
-/* Remove overlay after reveal */
-.hidden-blurred.revealed::after {
-    opacity: 0;
-}
-
 /* Photo reveal styling */
 .photo-section {
     border-radius: 15px;
@@ -415,7 +375,6 @@ body {
     color: #d147a3;
     text-align: center;
     cursor: pointer;
-    filter: blur(6px);
     transition: filter 0.5s ease;
     position: relative; /* needed for the overlay */
 }
@@ -427,31 +386,4 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-}
-
-.photo-section::after {
-    content: "Click to reveal 📸";
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #ffd6e7;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(2px);
-    border-radius: 15px;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-.photo-section.revealed {
-    filter: blur(0);
-    cursor: default;
-}
-
-.photo-section.revealed::after {
-    opacity: 0;
 }

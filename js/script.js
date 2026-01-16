@@ -19,68 +19,101 @@ document.querySelectorAll('#nav-menu a').forEach(link => {
     });
 });
 
-// Music Player
-const audioPlayer = document.getElementById('audio-player');
-const playPauseBtn = document.getElementById('play-pause');
-const stopBtn = document.getElementById('stop');
-const progressBar = document.getElementById('progress-bar');
-const progressContainer = document.querySelector('.progress-container');
-const currentTimeEl = document.getElementById('current-time');
-const durationEl = document.getElementById('duration');
-const songTitleEl = document.querySelector('.song-title');
-const artistEl = document.querySelector('.artist');
-
-let isPlaying = false;
-
-// Load metadata from MP3
-function loadMetadata() {
-    const audioSrc = audioPlayer.querySelector('source').src;
-    jsmediatags.read(audioSrc, {
-        onSuccess: function(tag) {
-            const title = tag.tags.title || 'Unknown Title';
-            const artist = tag.tags.artist || 'Unknown Artist';
-            songTitleEl.textContent = title;
-            artistEl.textContent = `By: ${artist}`;
-        },
-        onError: function(error) {
-            console.log('Error reading metadata:', error);
-            // Fallback to filename if metadata fails
-            const filename = audioSrc.split('/').pop().split('.')[0];
-            songTitleEl.textContent = filename;
-            artistEl.textContent = 'By: Unknown Artist';
-        }
-    });
+// Back button
+function goBack() {
+  window.location.href = "home.html";
 }
 
-// Auto-play when page loads
-window.addEventListener('load', () => {
-    loadMetadata();
-    audioPlayer.play();
-    isPlaying = true;
-    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+// Playlist
+const songs = [
+  {
+    title: "Last Night On Earth",
+    artist: "Green Day",
+    src: "Music/Green Day - Last Night On Earth (cover).mp3"
+  },
+  {
+    title: "A Disco Beat for Mai",
+    artist: "An/Bean",
+    src: "Music/DiscoBeat.mp3"
+  },
+  {
+    title: "Hearts Beating, Time Ticking",
+    artist: "An/Bean",
+    src: "Music/Hearts_beating.mp3"
+  }
+];
+
+let currentSong = 0;
+let isPlaying = false;
+
+const audio = document.getElementById("audio-player");
+const playBtn = document.getElementById("play-pause");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const title = document.querySelector(".song-title");
+const artist = document.querySelector(".artist");
+const progressBar = document.getElementById("progress-bar");
+const currentTimeEl = document.getElementById("current-time");
+const durationEl = document.getElementById("duration");
+
+function loadSong(song) {
+  title.textContent = song.title;
+  artist.textContent = "By: " + song.artist;
+  audio.src = song.src;
+}
+
+function playSong() {
+  audio.play();
+  playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+  isPlaying = true;
+}
+
+function pauseSong() {
+  audio.pause();
+  playBtn.innerHTML = '<i class="fas fa-play"></i>';
+  isPlaying = false;
+}
+
+playBtn.addEventListener("click", () => {
+  isPlaying ? pauseSong() : playSong();
 });
 
-// Play/Pause toggle
-playPauseBtn.addEventListener('click', () => {
-    if (isPlaying) {
-        audioPlayer.pause();
-        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-    } else {
-        audioPlayer.play();
-        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-    }
-    isPlaying = !isPlaying;
+prevBtn.addEventListener("click", () => {
+  currentSong = (currentSong - 1 + songs.length) % songs.length;
+  loadSong(songs[currentSong]);
+  playSong();
 });
 
-// Stop
-stopBtn.addEventListener('click', () => {
-    audioPlayer.pause();
-    audioPlayer.currentTime = 0;
-    isPlaying = false;
-    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-    progressBar.style.width = '0%';
-    currentTimeEl.textContent = '0:00';
+nextBtn.addEventListener("click", () => {
+  currentSong = (currentSong + 1) % songs.length;
+  loadSong(songs[currentSong]);
+  playSong();
 });
+
+// Progress bar
+audio.addEventListener("timeupdate", () => {
+  const progress = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = progress + "%";
+
+  const currentMinutes = Math.floor(audio.currentTime / 60);
+  const currentSeconds = Math.floor(audio.currentTime % 60);
+  currentTimeEl.textContent = `${currentMinutes}:${currentSeconds < 10 ? "0" : ""}${currentSeconds}`;
+
+  if (!isNaN(audio.duration)) {
+    const durationMinutes = Math.floor(audio.duration / 60);
+    const durationSeconds = Math.floor(audio.duration % 60);
+    durationEl.textContent = `${durationMinutes}:${durationSeconds < 10 ? "0" : ""}${durationSeconds}`;
+  }
+});
+
+// Auto next
+audio.addEventListener("ended", () => {
+  nextBtn.click();
+});
+
+// Load first song
+loadSong(songs[currentSong]);
+
 
 // Update progress bar and time
 audioPlayer.addEventListener('timeupdate', () => {
@@ -106,16 +139,4 @@ function formatTime(time) {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
-
-const revealColumn = document.getElementById('reveal-column');
-
-revealColumn.addEventListener('click', () => {
-    revealColumn.classList.add('revealed');
-});
-
-const photoReveal = document.getElementById('photo-reveal');
-
-photoReveal.addEventListener('click', () => {
-    photoReveal.classList.add('revealed');
-});
 

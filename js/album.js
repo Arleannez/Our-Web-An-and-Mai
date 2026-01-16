@@ -54,3 +54,8 @@ function openViewer(img) {
 function closeViewer() {
   document.getElementById("viewer").style.display = "none";
 }
+
+// Back button
+function goBack() {
+  window.location.href = "home.html"; // change if needed
+}
