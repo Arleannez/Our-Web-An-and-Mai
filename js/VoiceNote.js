@@ -23,9 +23,9 @@ document.querySelectorAll('#nav-menu a').forEach(link => {
 // Playlist
 const songs = [
   {
-    title: "A Disco Beat for Mai",
+    title: "Note 1",
     artist: "An/Bean",
-    src: "Music/DiscoBeat.mp3"
+    src: "Music/MESSAGE_1.m4a"
   },
   {
     title: "Hearts Beating, Time Ticking",
@@ -130,4 +130,5 @@ function formatTime(time) {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
+
 
