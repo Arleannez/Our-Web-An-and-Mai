@@ -28,10 +28,21 @@ const songs = [
     src: "Music/MESSAGE_1.m4a"
   },
   {
-    title: "Hearts Beating, Time Ticking",
+    title: "Note 2",
     artist: "An/Bean",
-    src: "Music/Hearts_beating.mp3"
-  }
+    src: "Music/Message_2.m4a"
+  },
+    {
+        title: "Note 3",
+        artist: "An/Bean",
+        src: "Music/Message_3.m4a"
+    },
+    {
+        title: "Note 4",
+        artist: "An/Bean",
+        src: "Music/Message_4.m4a"
+    }
+
 ];
 
 let currentSong = 0;
@@ -130,5 +141,6 @@ function formatTime(time) {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
+
 
 
