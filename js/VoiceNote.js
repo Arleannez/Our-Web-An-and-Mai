@@ -41,6 +41,16 @@ const songs = [
         title: "Note 4",
         artist: "An/Bean",
         src: "Music/Message_4.m4a"
+    },
+    {
+        title: "This one is RNB",
+        artist: "An/Bean",
+        src: "Music/RNB.mp3"
+    },
+    {
+        title: "Sunny Rainy Day",
+        artist: "An/Bean",
+        src: "Music/Sunny Rainy Day.mp3"
     }
 
 ];
